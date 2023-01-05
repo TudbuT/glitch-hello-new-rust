@@ -11,7 +11,7 @@ fn main() {
     // This will not work in 2018, which is the edition glitch normally uses.
     let mut runtime = QueuedRuntime::new();
     runtime.push(async_main());
-    microasync::sync(runtime);
+    microasync::sync_with(runtime, 5); // use a higher number to lower CPU usage
 }
 
 async fn async_main() {
