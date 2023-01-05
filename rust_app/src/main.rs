@@ -1,17 +1,17 @@
 use microasync_util::io::read::tcpstream;
 use microasync_util::io::{ReadAsync, WriteAsync};
 use microasync_util::{get_current_runtime, QueuedRuntime};
+use std::fs;
 use std::net::{Shutdown, TcpListener};
 use std::process::Command;
 use std::str;
-use std::fs;
 
 fn main() {
     // MicroAsync is a library using edition 2021 and some new features.
     // This will not work in 2018, which is the edition glitch normally uses.
     let mut runtime = QueuedRuntime::new();
     runtime.push(async_main());
-    microasync::sync_with(runtime, 5); // use a higher number to lower CPU usage
+    microasync::sync_with(runtime, 50); // use a higher number to lower CPU usage
 }
 
 async fn async_main() {
@@ -32,7 +32,14 @@ async fn async_main() {
     // Let's make a *TINY* and very bad but async web server
     let mut listener = TcpListener::bind(("0.0.0.0", 4000)).unwrap(); // bind to all interfaces on port 4000 (glitch's port)
     while let Ok((mut socket, addr)) = tcpstream::accept(&mut listener).await {
-        println!("We got a connection from {addr:?}!");
+        println!(
+            "We got a connection from {addr:?}! BTW, our current CPU load is {}.",
+            fs::read_to_string("/proc/loadavg")
+                .unwrap()
+                .split(" ")
+                .next()
+                .unwrap()
+        );
         let version = version.to_owned();
         get_current_runtime().await.push(async move {
             let mut full = Vec::new();
