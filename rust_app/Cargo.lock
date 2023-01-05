@@ -18,9 +18,9 @@ checksum = "32961086c50379c74782380e5cace085d6cf466fefa0183c3e8437e5e438fa4f"
 
 [[package]]
 name = "microasync-util"
-version = "0.1.1"
+version = "0.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "064e04a1bc5a99e2634f95acaae45d14c796a9665bc9b0143f84223a788cfcdb"
+checksum = "9772a31c39d0e49df80b5c8ee79f0ef2cbbdeb17e626500b9c7087127c811136"
 dependencies = [
  "microasync",
 ]
