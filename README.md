@@ -10,5 +10,17 @@ It is now interactive, that would go beyond the scope of this demo.
 
 ## Awesome, how do I use it?
 
-You can put any rust project you want in the rust_app/ directory. It will then be run using the 
+You can put any rust project you want in the rust_app/ directory. It will then be run using the
 latest stable rust release.
+
+## But it's so slow!
+
+Once you're done working with it, simply change the value in run-only.bool to true and it will 
+stop recompiling every time. When you want to continue work on it again, simply set it to false 
+again.
+
+## It doesn't update when I change code
+
+This is because of a glitch quirk. Simply change package.json in a minor but valid way to trigger
+recompilation. I prefer simply adding a space to the end of the file to recompile, and removing it
+when I want to recompile the next time.
