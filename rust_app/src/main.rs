@@ -4,6 +4,7 @@ use microasync_util::{get_current_runtime, QueuedRuntime};
 use std::net::{Shutdown, TcpListener};
 use std::process::Command;
 use std::str;
+use std::fs;
 
 fn main() {
     // MicroAsync is a library using edition 2021 and some new features.
@@ -43,7 +44,9 @@ async fn async_main() {
                     break;
                 }
             }
-            let index = include_str!("../index.html").replace("{rust-version}", version.as_str());
+            let index = fs::read_to_string("index.html")
+                .unwrap()
+                .replace("{rust-version}", version.as_str());
             socket
                 .write(
                     include_str!("../index.html.http")
