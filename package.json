@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "install": "env RUSTUP_HOME=/tmp/rust rustup install stable",
+    "install": "$(cat run-only.bool) || env RUSTUP_HOME=/tmp/rust rustup install stable",
     "start": "env RUSTUP_HOME=/tmp/rust CARGO_HOME=/tmp/cargo bash rust.sh",
     "bash": "env RUSTUP_HOME=/tmp/rust CARGO_HOME=/tmp/cargo bash --login -i"
   }
