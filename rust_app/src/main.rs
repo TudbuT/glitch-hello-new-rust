@@ -3,7 +3,6 @@ use microasync_util::io::{ReadAsync, WriteAsync};
 use microasync_util::{get_current_runtime, QueuedRuntime};
 use std::fs;
 use std::net::{Shutdown, TcpListener};
-use std::process::Command;
 use std::str;
 
 fn main() {
@@ -15,19 +14,7 @@ fn main() {
 }
 
 async fn async_main() {
-    let version = str::from_utf8(
-        Command::new("rustc")
-            .arg("--version")
-            .output()
-            .expect("couldn't find rustc, but it should be installed")
-            .stdout
-            .as_slice(),
-    )
-    .expect("invalid rustc output")
-    .to_owned();
-    let version = version[..version.len() - 1].to_owned();
     println!("Hello, world!");
-    println!("This runs on rust version {}", version);
 
     // Let's make a *TINY* and very bad but async web server
     let mut listener = TcpListener::bind(("0.0.0.0", 4000)).unwrap(); // bind to all interfaces on port 4000 (glitch's port)
@@ -40,7 +27,6 @@ async fn async_main() {
                 .next()
                 .unwrap()
         );
-        let version = version.to_owned();
         get_current_runtime().await.push(async move {
             let mut full = Vec::new();
             let mut buf = [0_u8; 256];
@@ -51,9 +37,7 @@ async fn async_main() {
                     break;
                 }
             }
-            let index = fs::read_to_string("index.html")
-                .unwrap()
-                .replace("{rust-version}", version.as_str());
+            let index = fs::read_to_string("index.html").unwrap();
             socket
                 .write(
                     include_str!("../index.html.http")
