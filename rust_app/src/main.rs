@@ -17,14 +17,7 @@ async fn async_main() {
     // Let's make a *TINY* and very bad but async web server
     let mut listener = TcpListener::bind(("0.0.0.0", 4000)).unwrap(); // bind to all interfaces on port 4000 (glitch's port)
     while let Ok((mut socket, addr)) = tcpstream::accept(&mut listener).await {
-        println!(
-            "We got a connection from {addr:?}! BTW, our current CPU load is {}.",
-            fs::read_to_string("/proc/loadavg")
-                .unwrap()
-                .split(" ")
-                .next()
-                .unwrap()
-        );
+        println!("We got a connection from {addr:?}!");
         get_current_runtime().await.push(async move {
             let mut full = Vec::new();
             let mut buf = [0_u8; 256];
