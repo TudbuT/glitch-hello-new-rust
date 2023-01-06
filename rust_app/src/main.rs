@@ -8,9 +8,7 @@ use std::str;
 fn main() {
     // MicroAsync is a library using edition 2021 and some new features.
     // This will not work in 2018, which is the edition glitch normally uses.
-    let mut runtime = QueuedRuntime::new();
-    runtime.push(async_main());
-    microasync::sync_with(runtime, 50); // use a higher number to lower CPU usage
+    microasync::sync_with(QueuedRuntime::new_with(async_main()), 50); // use a higher number to lower CPU usage
 }
 
 async fn async_main() {
